@@ -3,8 +3,9 @@ package lexer
 type TokenType int
 
 const (
-	// special tokens
 	IDENTIFIER TokenType = iota
+
+	// separators
 	SEMI_COLON
 
 	// operators
@@ -25,6 +26,15 @@ const (
 type Token struct {
 	Value string
 	Type  TokenType
+}
+
+func (t Token) String() string {
+
+	if t.Type == STRING || t.Type == IDENTIFIER || t.Type == NUMBER {
+		return "Type: " + TokenTypeString(t.Type) + " Value: '" + t.Value + "'"
+	}
+
+	return "Type: " + TokenTypeString(t.Type)
 }
 
 func TokenTypeString(t TokenType) string {
