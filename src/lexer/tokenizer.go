@@ -5,7 +5,10 @@ import (
 )
 
 func Tokenize(input string) []Token {
+	// order of finders is important
+	// ex: if we put \w+ before \d+\.\d+ then it will match "1.2" as two tokens
 	finders := `=|;|\(|\)|{|}|\+\+|\<|\+|"([^"]*)"|\d+\.\d+|\w+`
+
 	re := regexp.MustCompile(finders)
 	raw_tokens := re.FindAllString(input, -1)
 
