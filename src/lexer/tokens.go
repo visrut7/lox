@@ -7,6 +7,10 @@ const (
 
 	// separators
 	SEMI_COLON
+	LEFT_PAREN
+	RIGHT_PAREN
+	LEFT_BRACE
+	RIGHT_BRACE
 
 	// operators
 	EQUAL
@@ -14,13 +18,14 @@ const (
 	MINUS
 	ASTERISK
 	SLASH
+	PLUS_PLUS
+	LESS
 
 	// literals
 	STRING
 	NUMBER
 
-	// keywords
-	VAR
+	KEYWORD
 )
 
 type Token struct {
@@ -40,26 +45,38 @@ func (t Token) String() string {
 func TokenTypeString(t TokenType) string {
 	switch t {
 	case IDENTIFIER:
-		return "IDENTIFIER"
-	case VAR:
-		return "VAR"
+		return "identifier"
+	case KEYWORD:
+		return "keyword"
 	case EQUAL:
-		return "EQUAL"
+		return "equal"
 	case STRING:
-		return "STRING"
+		return "string"
 	case SEMI_COLON:
-		return "SEMI_COLON"
+		return "semi_colon"
 	case NUMBER:
-		return "NUMBER"
+		return "number"
 	case PLUS:
-		return "PLUS"
+		return "plus"
 	case MINUS:
-		return "MINUS"
+		return "minus"
 	case ASTERISK:
-		return "ASTERISK"
+		return "asterisk"
 	case SLASH:
-		return "SLASH"
+		return "slash"
+	case PLUS_PLUS:
+		return "plus_plus"
+	case LESS:
+		return "less"
+	case LEFT_PAREN:
+		return "left_paren"
+	case RIGHT_PAREN:
+		return "right_paren"
+	case LEFT_BRACE:
+		return "left_brace"
+	case RIGHT_BRACE:
+		return "right_brace"
 	default:
-		return "UNKNOWN"
+		return "unknown"
 	}
 }

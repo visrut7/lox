@@ -1,53 +1,83 @@
 package lexer
 
+import (
+	"regexp"
+)
+
 func Tokenize(input string) []Token {
-	var tokens []Token
+	finders := `=|;|\(|\)|{|}|\+\+|\<|\+|"([^"]*)"|\d+\.\d+|\w+`
+	re := regexp.MustCompile(finders)
+	raw_tokens := re.FindAllString(input, -1)
 
-	buffer := ""
-	string_mode := false
+	tokens := []Token{}
 
-	for i := 0; i < len(input); i++ {
-		switch input[i] {
-		case ' ':
-			if len(buffer) > 0 && !string_mode {
-				tokens = append(tokens, Token{buffer, IDENTIFIER})
-				buffer = ""
-			}
-
-			if string_mode {
-				buffer += " "
-			}
-
+	for i := 0; i < len(raw_tokens); i++ {
+		switch raw_tokens[i] {
+		case " ":
 			continue
-		case ';':
-			tokens = append(tokens, Token{";", SEMI_COLON})
-		case '=':
+		case "=":
 			tokens = append(tokens, Token{"=", EQUAL})
-		case '+':
+		case ";":
+			tokens = append(tokens, Token{";", SEMI_COLON})
+		case "+":
 			tokens = append(tokens, Token{"+", PLUS})
-		case '-':
-			tokens = append(tokens, Token{"-", MINUS})
-		case '*':
-			tokens = append(tokens, Token{"*", ASTERISK})
-		case '/':
-			tokens = append(tokens, Token{"/", SLASH})
-		case '"':
-			if string_mode {
-				tokens = append(tokens, Token{buffer, STRING})
-				buffer = ""
-				string_mode = false
-			} else {
-				string_mode = true
-			}
+		case "++":
+			tokens = append(tokens, Token{"++", PLUS_PLUS})
+		case "<":
+			tokens = append(tokens, Token{"<", LESS})
+		case "(":
+			tokens = append(tokens, Token{"(", LEFT_PAREN})
+		case ")":
+			tokens = append(tokens, Token{")", RIGHT_PAREN})
+		case "{":
+			tokens = append(tokens, Token{"{", LEFT_BRACE})
+		case "}":
+			tokens = append(tokens, Token{"}", RIGHT_BRACE})
 		default:
-			buffer += string(input[i])
-			if buffer == "var" {
-				tokens = append(tokens, Token{"var", VAR})
-				buffer = ""
+			if is_keyword(raw_tokens[i]) {
+				tokens = append(tokens, Token{raw_tokens[i], KEYWORD})
+				continue
 			}
-			continue
+
+			if is_string(raw_tokens[i]) {
+				tokens = append(tokens, Token{raw_tokens[i], STRING})
+				continue
+			}
+
+			if is_number(raw_tokens[i]) {
+				tokens = append(tokens, Token{raw_tokens[i], NUMBER})
+				continue
+			}
+
+			tokens = append(tokens, Token{raw_tokens[i], IDENTIFIER})
 		}
 	}
 
 	return tokens
+}
+
+func is_keyword(s string) bool {
+	keywords := []string{"var", "for"}
+
+	// return true if s is in the array
+	for _, keyword := range keywords {
+		if s == keyword {
+			return true
+		}
+	}
+
+	return false
+}
+
+func is_string(s string) bool {
+	if s[0] == '"' && s[len(s)-1] == '"' {
+		return true
+	}
+
+	return false
+}
+
+func is_number(s string) bool {
+	is_matched, err := regexp.MatchString(`\d+`, s)
+	return is_matched && err == nil
 }
