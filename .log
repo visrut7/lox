@@ -3,3 +3,6 @@ go mod init visrut7/lox
 go get github.com/stretchr/testify/assert
 go run ./...
 go test ./...
+> add folder src-ts equivalent logic in typescript to compare with golang
+pnpm dev
+pnpm test

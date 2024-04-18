@@ -1,9 +1,14 @@
-name: Go
+name: Go | TypeScript CI
 
 on: [push]
 
+env:
+  NODE_VERSION: 20
+  PNPM_VERSION: 8
+
 jobs:
-  build:
+  build-go:
+    name: Build Go and test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,3 +28,27 @@ jobs:
         run: go build -v ./...
       - name: Test with the Go CLI
         run: go test ./...
+
+  build-ts:
+    name: Build TypeScript and test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup NodeJS environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Test packages
+        run: pnpm test
