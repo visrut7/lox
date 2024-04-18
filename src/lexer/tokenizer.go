@@ -7,7 +7,7 @@ import (
 func Tokenize(input string) []Token {
 	// order of finders is important
 	// ex: if we put \w+ before \d+\.\d+ then it will match "1.2" as two tokens
-	finders := `=|;|\(|\)|{|}|\+\+|\<|\+|"([^"]*)"|\d+\.\d+|\w+`
+	finders := `=|;|\(|\)|{|}|\+\+|\<|\+|-|\/|\*|"([^"]*)"|\d+\.\d+|\w+`
 
 	re := regexp.MustCompile(finders)
 	raw_tokens := re.FindAllString(input, -1)
@@ -36,6 +36,10 @@ func Tokenize(input string) []Token {
 			tokens = append(tokens, Token{"{", LEFT_BRACE})
 		case "}":
 			tokens = append(tokens, Token{"}", RIGHT_BRACE})
+		case "/":
+			tokens = append(tokens, Token{"/", DIVIDE})
+		case "*":
+			tokens = append(tokens, Token{"*", MULTIPLY})
 		default:
 			if is_keyword(raw_tokens[i]) {
 				tokens = append(tokens, Token{raw_tokens[i], KEYWORD})

@@ -66,3 +66,51 @@ func TestTokenize_ForLoop(t *testing.T) {
 	assert.Equal(t, expected[19], tokens[19], "Expected "+expected[19].String())
 	assert.Equal(t, expected[20], tokens[20], "Expected "+expected[20].String())
 }
+
+func TestTokenize_Arithmatic(t *testing.T) {
+	input := `
+	x = 1.2 * 3.4 + 5.6 / 7.8 - 9.0;
+	y = x * 2 + (6 - 3) / 2;
+	`
+
+	expected := []Token{
+		{Value: "x", Type: IDENTIFIER},
+		{Value: "=", Type: EQUAL},
+		{Value: "1.2", Type: NUMBER},
+		{Value: "*", Type: MULTIPLY},
+		{Value: "3.4", Type: NUMBER},
+		{Value: "+", Type: PLUS},
+		{Value: "5.6", Type: NUMBER},
+		{Value: "/", Type: DIVIDE},
+		{Value: "7.8", Type: NUMBER},
+		{Value: "-", Type: MINUS},
+		{Value: "9.0", Type: NUMBER},
+		{Value: ";", Type: SEMI_COLON},
+		{Value: "y", Type: IDENTIFIER},
+		{Value: "=", Type: EQUAL},
+		{Value: "x", Type: IDENTIFIER},
+		{Value: "*", Type: MULTIPLY},
+		{Value: "2", Type: NUMBER},
+		{Value: "+", Type: PLUS},
+		{Value: "(", Type: LEFT_PAREN},
+		{Value: "6", Type: NUMBER},
+		{Value: "-", Type: MINUS},
+		{Value: "3", Type: NUMBER},
+		{Value: ")", Type: RIGHT_PAREN},
+		{Value: "/", Type: DIVIDE},
+		{Value: "2", Type: NUMBER},
+		{Value: ";", Type: SEMI_COLON},
+	}
+
+	tokens := Tokenize(input)
+
+	assert.Equal(t, len(expected), len(tokens))
+
+	assert.Equal(t, expected[0], tokens[0], "Expected "+expected[0].String())
+	assert.Equal(t, expected[2], tokens[2], "Expected "+expected[2].String())
+	assert.Equal(t, expected[4], tokens[4], "Expected "+expected[4].String())
+	assert.Equal(t, expected[6], tokens[6], "Expected "+expected[6].String())
+	assert.Equal(t, expected[8], tokens[8], "Expected "+expected[8].String())
+	assert.Equal(t, expected[10], tokens[10], "Expected "+expected[10].String())
+	assert.Equal(t, expected[12], tokens[12], "Expected "+expected[12].String())
+}

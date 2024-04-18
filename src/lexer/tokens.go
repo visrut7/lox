@@ -16,10 +16,10 @@ const (
 	EQUAL
 	PLUS
 	MINUS
-	ASTERISK
-	SLASH
 	PLUS_PLUS
 	LESS
+	MULTIPLY
+	DIVIDE
 
 	// literals
 	STRING
@@ -60,10 +60,10 @@ func TokenTypeString(t TokenType) string {
 		return "plus"
 	case MINUS:
 		return "minus"
-	case ASTERISK:
-		return "asterisk"
-	case SLASH:
-		return "slash"
+	case MULTIPLY:
+		return "multiply"
+	case DIVIDE:
+		return "divide"
 	case PLUS_PLUS:
 		return "plus_plus"
 	case LESS:
