@@ -9,8 +9,8 @@ const (
 	SEMI_COLON
 	LEFT_PAREN
 	RIGHT_PAREN
-	LEFT_BRACE
-	RIGHT_BRACE
+	LEFT_CURLY
+	RIGHT_CURLY
 
 	// operators
 	EQUAL
@@ -72,10 +72,10 @@ func TokenTypeString(t TokenType) string {
 		return "left_paren"
 	case RIGHT_PAREN:
 		return "right_paren"
-	case LEFT_BRACE:
-		return "left_brace"
-	case RIGHT_BRACE:
-		return "right_brace"
+	case LEFT_CURLY:
+		return "left_curly"
+	case RIGHT_CURLY:
+		return "right_curly"
 	default:
 		return "unknown"
 	}

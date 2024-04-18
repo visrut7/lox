@@ -43,14 +43,14 @@ func TestTokenize_ForLoop(t *testing.T) {
 		{Value: "i", Type: IDENTIFIER},
 		{Value: "++", Type: PLUS_PLUS},
 		{Value: ")", Type: RIGHT_PAREN},
-		{Value: "{", Type: LEFT_BRACE},
+		{Value: "{", Type: LEFT_CURLY},
 		{Value: "x", Type: IDENTIFIER},
 		{Value: "=", Type: EQUAL},
 		{Value: "x", Type: IDENTIFIER},
 		{Value: "+", Type: PLUS},
 		{Value: "1.2", Type: NUMBER},
 		{Value: ";", Type: SEMI_COLON},
-		{Value: "}", Type: RIGHT_BRACE},
+		{Value: "}", Type: RIGHT_CURLY},
 	}
 
 	tokens := Tokenize(input)
