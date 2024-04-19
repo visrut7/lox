@@ -1,5 +1,9 @@
 import { Token, TokenType, is_keyword } from "./tokens";
 
+function escape_regex(value: string): string {
+  return value.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+}
+
 function get_finders(): RegExp {
   let raw_regex = "";
 
@@ -13,11 +17,11 @@ function get_finders(): RegExp {
       return;
     }
 
-    raw_regex += `|\\${token_value}`;
+    raw_regex += `|${escape_regex(token_value)}`;
   });
 
   // numbers
-  raw_regex += "|\\d+\\.\\d+";
+  raw_regex += "|\\d+(\\.\\d+)?";
 
   // identifiers
   raw_regex += "|[a-zA-Z_][a-zA-Z0-9_]*";
@@ -41,46 +45,68 @@ export function tokenize(input: string): Token[] {
       break;
     }
 
-    switch (result.value[0]) {
+    const value = result.value[0];
+
+    switch (value) {
       case TokenType.SEMI_COLON:
-        tokens.push({ value: result.value[0], type: TokenType.SEMI_COLON });
+        tokens.push({ value, type: TokenType.SEMI_COLON });
         break;
       case TokenType.LEFT_PAREN:
-        tokens.push({ value: result.value[0], type: TokenType.LEFT_PAREN });
+        tokens.push({ value, type: TokenType.LEFT_PAREN });
         break;
       case TokenType.RIGHT_PAREN:
-        tokens.push({ value: result.value[0], type: TokenType.RIGHT_PAREN });
+        tokens.push({ value, type: TokenType.RIGHT_PAREN });
         break;
       case TokenType.LEFT_BRACE:
-        tokens.push({ value: result.value[0], type: TokenType.LEFT_BRACE });
+        tokens.push({ value, type: TokenType.LEFT_BRACE });
         break;
       case TokenType.RIGHT_BRACE:
-        tokens.push({ value: result.value[0], type: TokenType.RIGHT_BRACE });
+        tokens.push({ value, type: TokenType.RIGHT_BRACE });
         break;
       case TokenType.EQUAL:
-        tokens.push({ value: result.value[0], type: TokenType.EQUAL });
+        tokens.push({ value, type: TokenType.EQUAL });
         break;
       case TokenType.PLUS:
-        tokens.push({ value: result.value[0], type: TokenType.PLUS });
+        tokens.push({ value, type: TokenType.PLUS });
+        break;
+      case TokenType.PLUS_PLUS:
+        tokens.push({ value, type: TokenType.PLUS_PLUS });
+        break;
+      case TokenType.LESS:
+        tokens.push({ value, type: TokenType.LESS });
+        break;
+      case TokenType.LEFT_CURLY:
+        tokens.push({ value, type: TokenType.LEFT_CURLY });
+        break;
+      case TokenType.RIGHT_CURLY:
+        tokens.push({ value, type: TokenType.RIGHT_CURLY });
+        break;
+      case TokenType.MULTIPLY:
+        tokens.push({ value, type: TokenType.MULTIPLY });
+        break;
+      case TokenType.DIVIDE:
+        tokens.push({ value, type: TokenType.DIVIDE });
+        break;
+      case TokenType.MINUS:
+        tokens.push({ value, type: TokenType.MINUS });
         break;
       default:
-        if (is_keyword(result.value[0])) {
-          console.log("got keyword", result.value[0]);
-          tokens.push({ value: result.value[0], type: TokenType.KEYWORD });
+        if (is_keyword(value)) {
+          tokens.push({ value, type: TokenType.KEYWORD });
           break;
         }
 
-        if (result.value[0].startsWith('"')) {
-          tokens.push({ value: result.value[0], type: TokenType.STRING });
+        if (value.startsWith('"')) {
+          tokens.push({ value, type: TokenType.STRING });
           break;
         }
 
-        if (!isNaN(Number(result.value[0]))) {
-          tokens.push({ value: result.value[0], type: TokenType.NUMBER });
+        if (!isNaN(Number(value))) {
+          tokens.push({ value, type: TokenType.NUMBER });
           break;
         }
 
-        tokens.push({ value: result.value[0], type: TokenType.IDENTIFIER });
+        tokens.push({ value, type: TokenType.IDENTIFIER });
 
         break;
     }

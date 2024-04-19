@@ -7,13 +7,15 @@ export enum TokenType {
   RIGHT_PAREN = ")",
   LEFT_BRACE = "[",
   RIGHT_BRACE = "]",
+  LEFT_CURLY = "{",
+  RIGHT_CURLY = "}",
 
   // operators
+  PLUS_PLUS = "++",
   EQUAL = "=",
   PLUS = "+",
   MINUS = "-",
-  PLUS_PLUS = "++",
-  LESS = "-",
+  LESS = "<",
   MULTIPLY = "*",
   DIVIDE = "/",
 
