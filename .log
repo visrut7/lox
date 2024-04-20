@@ -6,3 +6,5 @@ go test ./...
 > add folder src-ts equivalent logic in typescript to compare with golang
 pnpm dev
 pnpm test
+pnpm i -D husky
+pnpm exec husky init

@@ -3,6 +3,7 @@ name: Go | TypeScript CI
 on: [push]
 
 env:
+  HUSKY: 0
   NODE_VERSION: 20
   PNPM_VERSION: 8
 
