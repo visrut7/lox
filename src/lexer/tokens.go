@@ -29,8 +29,9 @@ const (
 )
 
 type Token struct {
-	Value string
-	Type  TokenType
+	Value  string
+	Type   TokenType
+	LineNo int
 }
 
 func (t Token) String() string {

@@ -7,13 +7,13 @@ import (
 )
 
 func TestTokenize_BasicTokenization(t *testing.T) {
-	input := "var language = \"lox\";"
+	input := "var language = \"lox\"\n\n      \n\n;"
 	expected := []Token{
-		{Value: "var", Type: KEYWORD},
-		{Value: "language", Type: IDENTIFIER},
-		{Value: "=", Type: EQUAL},
-		{Value: "\"lox\"", Type: STRING},
-		{Value: ";", Type: SEMI_COLON},
+		{"var", KEYWORD, 1},
+		{"language", IDENTIFIER, 1},
+		{"=", EQUAL, 1},
+		{"\"lox\"", STRING, 1},
+		{";", SEMI_COLON, 5},
 	}
 
 	tokens := Tokenize(input)
@@ -29,28 +29,28 @@ func TestTokenize_BasicTokenization(t *testing.T) {
 func TestTokenize_ForLoop(t *testing.T) {
 	input := "for (var i = 0; i < 10; i++) { x = x + 1.2; }"
 	expected := []Token{
-		{Value: "for", Type: KEYWORD},
-		{Value: "(", Type: LEFT_PAREN},
-		{Value: "var", Type: KEYWORD},
-		{Value: "i", Type: IDENTIFIER},
-		{Value: "=", Type: EQUAL},
-		{Value: "0", Type: NUMBER},
-		{Value: ";", Type: SEMI_COLON},
-		{Value: "i", Type: IDENTIFIER},
-		{Value: "<", Type: LESS},
-		{Value: "10", Type: NUMBER},
-		{Value: ";", Type: SEMI_COLON},
-		{Value: "i", Type: IDENTIFIER},
-		{Value: "++", Type: PLUS_PLUS},
-		{Value: ")", Type: RIGHT_PAREN},
-		{Value: "{", Type: LEFT_CURLY},
-		{Value: "x", Type: IDENTIFIER},
-		{Value: "=", Type: EQUAL},
-		{Value: "x", Type: IDENTIFIER},
-		{Value: "+", Type: PLUS},
-		{Value: "1.2", Type: NUMBER},
-		{Value: ";", Type: SEMI_COLON},
-		{Value: "}", Type: RIGHT_CURLY},
+		{"for", KEYWORD, 1},
+		{"(", LEFT_PAREN, 1},
+		{"var", KEYWORD, 1},
+		{"i", IDENTIFIER, 1},
+		{"=", EQUAL, 1},
+		{"0", NUMBER, 1},
+		{";", SEMI_COLON, 1},
+		{"i", IDENTIFIER, 1},
+		{"<", LESS, 1},
+		{"10", NUMBER, 1},
+		{";", SEMI_COLON, 1},
+		{"i", IDENTIFIER, 1},
+		{"++", PLUS_PLUS, 1},
+		{")", RIGHT_PAREN, 1},
+		{"{", LEFT_CURLY, 1},
+		{"x", IDENTIFIER, 1},
+		{"=", EQUAL, 1},
+		{"x", IDENTIFIER, 1},
+		{"+", PLUS, 1},
+		{"1.2", NUMBER, 1},
+		{";", SEMI_COLON, 1},
+		{"}", RIGHT_CURLY, 1},
 	}
 
 	tokens := Tokenize(input)
@@ -68,38 +68,35 @@ func TestTokenize_ForLoop(t *testing.T) {
 }
 
 func TestTokenize_Arithmatic(t *testing.T) {
-	input := `
-	x = 1.2 * 3.4 + 5.6 / 7.8 - 9.0;
-	y = x * 2 + (6 - 3) / 2;
-	`
+	input := "\nx = 1.2 * 3.4 + 5.6 / 7.8 - 9.0;\ny = x * 2 + (6 - 3) / 2;"
 
 	expected := []Token{
-		{Value: "x", Type: IDENTIFIER},
-		{Value: "=", Type: EQUAL},
-		{Value: "1.2", Type: NUMBER},
-		{Value: "*", Type: MULTIPLY},
-		{Value: "3.4", Type: NUMBER},
-		{Value: "+", Type: PLUS},
-		{Value: "5.6", Type: NUMBER},
-		{Value: "/", Type: DIVIDE},
-		{Value: "7.8", Type: NUMBER},
-		{Value: "-", Type: MINUS},
-		{Value: "9.0", Type: NUMBER},
-		{Value: ";", Type: SEMI_COLON},
-		{Value: "y", Type: IDENTIFIER},
-		{Value: "=", Type: EQUAL},
-		{Value: "x", Type: IDENTIFIER},
-		{Value: "*", Type: MULTIPLY},
-		{Value: "2", Type: NUMBER},
-		{Value: "+", Type: PLUS},
-		{Value: "(", Type: LEFT_PAREN},
-		{Value: "6", Type: NUMBER},
-		{Value: "-", Type: MINUS},
-		{Value: "3", Type: NUMBER},
-		{Value: ")", Type: RIGHT_PAREN},
-		{Value: "/", Type: DIVIDE},
-		{Value: "2", Type: NUMBER},
-		{Value: ";", Type: SEMI_COLON},
+		{"x", IDENTIFIER, 2},
+		{"=", EQUAL, 2},
+		{"1.2", NUMBER, 2},
+		{"*", MULTIPLY, 2},
+		{"3.4", NUMBER, 2},
+		{"+", PLUS, 2},
+		{"5.6", NUMBER, 2},
+		{"/", DIVIDE, 2},
+		{"7.8", NUMBER, 2},
+		{"-", MINUS, 2},
+		{"9.0", NUMBER, 2},
+		{";", SEMI_COLON, 2},
+		{"y", IDENTIFIER, 3},
+		{"=", EQUAL, 3},
+		{"x", IDENTIFIER, 3},
+		{"*", MULTIPLY, 3},
+		{"2", NUMBER, 3},
+		{"+", PLUS, 3},
+		{"(", LEFT_PAREN, 3},
+		{"6", NUMBER, 3},
+		{"-", MINUS, 3},
+		{"3", NUMBER, 3},
+		{")", RIGHT_PAREN, 3},
+		{"/", DIVIDE, 3},
+		{"2", NUMBER, 3},
+		{";", SEMI_COLON, 3},
 	}
 
 	tokens := Tokenize(input)

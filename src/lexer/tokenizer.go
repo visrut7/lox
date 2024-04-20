@@ -7,56 +7,61 @@ import (
 func Tokenize(input string) []Token {
 	// order of finders is important
 	// ex: if we put \w+ before \d+\.\d+ then it will match "1.2" as two tokens
-	finders := `=|;|\(|\)|{|}|\+\+|\<|\+|-|\/|\*|"([^"]*)"|\d+(\.\d+)?|\w+`
+	finders := `\n|=|;|\(|\)|{|}|\+\+|\<|\+|-|\/|\*|"([^"]*)"|\d+(\.\d+)?|\w+`
 
 	re := regexp.MustCompile(finders)
 	raw_tokens := re.FindAllString(input, -1)
 
 	tokens := []Token{}
 
+	line_no := 1
+
 	for i := 0; i < len(raw_tokens); i++ {
 		switch raw_tokens[i] {
+		case "\n":
+			line_no += 1
+			continue
 		case " ":
 			continue
 		case "=":
-			tokens = append(tokens, Token{"=", EQUAL})
+			tokens = append(tokens, Token{"=", EQUAL, line_no})
 		case ";":
-			tokens = append(tokens, Token{";", SEMI_COLON})
+			tokens = append(tokens, Token{";", SEMI_COLON, line_no})
 		case "+":
-			tokens = append(tokens, Token{"+", PLUS})
+			tokens = append(tokens, Token{"+", PLUS, line_no})
 		case "++":
-			tokens = append(tokens, Token{"++", PLUS_PLUS})
+			tokens = append(tokens, Token{"++", PLUS_PLUS, line_no})
 		case "<":
-			tokens = append(tokens, Token{"<", LESS})
+			tokens = append(tokens, Token{"<", LESS, line_no})
 		case "(":
-			tokens = append(tokens, Token{"(", LEFT_PAREN})
+			tokens = append(tokens, Token{"(", LEFT_PAREN, line_no})
 		case ")":
-			tokens = append(tokens, Token{")", RIGHT_PAREN})
+			tokens = append(tokens, Token{")", RIGHT_PAREN, line_no})
 		case "{":
-			tokens = append(tokens, Token{"{", LEFT_CURLY})
+			tokens = append(tokens, Token{"{", LEFT_CURLY, line_no})
 		case "}":
-			tokens = append(tokens, Token{"}", RIGHT_CURLY})
+			tokens = append(tokens, Token{"}", RIGHT_CURLY, line_no})
 		case "/":
-			tokens = append(tokens, Token{"/", DIVIDE})
+			tokens = append(tokens, Token{"/", DIVIDE, line_no})
 		case "*":
-			tokens = append(tokens, Token{"*", MULTIPLY})
+			tokens = append(tokens, Token{"*", MULTIPLY, line_no})
 		default:
 			if is_keyword(raw_tokens[i]) {
-				tokens = append(tokens, Token{raw_tokens[i], KEYWORD})
+				tokens = append(tokens, Token{raw_tokens[i], KEYWORD, line_no})
 				continue
 			}
 
 			if is_string(raw_tokens[i]) {
-				tokens = append(tokens, Token{raw_tokens[i], STRING})
+				tokens = append(tokens, Token{raw_tokens[i], STRING, line_no})
 				continue
 			}
 
 			if is_number(raw_tokens[i]) {
-				tokens = append(tokens, Token{raw_tokens[i], NUMBER})
+				tokens = append(tokens, Token{raw_tokens[i], NUMBER, line_no})
 				continue
 			}
 
-			tokens = append(tokens, Token{raw_tokens[i], IDENTIFIER})
+			tokens = append(tokens, Token{raw_tokens[i], IDENTIFIER, line_no})
 		}
 	}
 
