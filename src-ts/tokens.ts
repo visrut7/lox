@@ -29,6 +29,7 @@ export enum TokenType {
 export type Token = {
   value: string;
   type: TokenType;
+  line_no: number;
 };
 
 export function is_keyword(value: string): boolean {
