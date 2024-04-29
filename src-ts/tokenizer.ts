@@ -1,7 +1,7 @@
 import { Token, TokenType, is_keyword } from "./tokens";
 
 function escape_regex(value: string): string {
-  return value.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+  return value.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
 }
 
 function get_finders(): RegExp {

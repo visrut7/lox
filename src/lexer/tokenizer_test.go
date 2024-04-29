@@ -19,11 +19,11 @@ func TestTokenize_BasicTokenization(t *testing.T) {
 	tokens := Tokenize(input)
 
 	assert.Equal(t, len(expected), len(tokens))
-	assert.Equal(t, expected[0], tokens[0], "Expected "+expected[0].String())
-	assert.Equal(t, expected[1], tokens[1], "Expected "+expected[1].String())
-	assert.Equal(t, expected[2], tokens[2], "Expected "+expected[2].String())
-	assert.Equal(t, expected[3], tokens[3], "Expected "+expected[3].String())
-	assert.Equal(t, expected[4], tokens[4], "Expected "+expected[4].String())
+	assert.Equal(t, expected[0], tokens[0])
+	assert.Equal(t, expected[1], tokens[1])
+	assert.Equal(t, expected[2], tokens[2])
+	assert.Equal(t, expected[3], tokens[3])
+	assert.Equal(t, expected[4], tokens[4])
 }
 
 func TestTokenize_ForLoop(t *testing.T) {
@@ -57,14 +57,14 @@ func TestTokenize_ForLoop(t *testing.T) {
 
 	assert.Equal(t, len(expected), len(tokens))
 
-	assert.Equal(t, expected[0], tokens[0], "Expected "+expected[0].String())
-	assert.Equal(t, expected[4], tokens[4], "Expected "+expected[4].String())
-	assert.Equal(t, expected[8], tokens[8], "Expected "+expected[8].String())
-	assert.Equal(t, expected[12], tokens[12], "Expected "+expected[12].String())
-	assert.Equal(t, expected[16], tokens[16], "Expected "+expected[16].String())
-	assert.Equal(t, expected[17], tokens[17], "Expected "+expected[17].String())
-	assert.Equal(t, expected[19], tokens[19], "Expected "+expected[19].String())
-	assert.Equal(t, expected[20], tokens[20], "Expected "+expected[20].String())
+	assert.Equal(t, expected[0], tokens[0])
+	assert.Equal(t, expected[4], tokens[4])
+	assert.Equal(t, expected[8], tokens[8])
+	assert.Equal(t, expected[12], tokens[12])
+	assert.Equal(t, expected[16], tokens[16])
+	assert.Equal(t, expected[17], tokens[17])
+	assert.Equal(t, expected[19], tokens[19])
+	assert.Equal(t, expected[20], tokens[20])
 }
 
 func TestTokenize_Arithmatic(t *testing.T) {
@@ -103,11 +103,11 @@ func TestTokenize_Arithmatic(t *testing.T) {
 
 	assert.Equal(t, len(expected), len(tokens))
 
-	assert.Equal(t, expected[0], tokens[0], "Expected "+expected[0].String())
-	assert.Equal(t, expected[2], tokens[2], "Expected "+expected[2].String())
-	assert.Equal(t, expected[4], tokens[4], "Expected "+expected[4].String())
-	assert.Equal(t, expected[6], tokens[6], "Expected "+expected[6].String())
-	assert.Equal(t, expected[8], tokens[8], "Expected "+expected[8].String())
-	assert.Equal(t, expected[10], tokens[10], "Expected "+expected[10].String())
-	assert.Equal(t, expected[12], tokens[12], "Expected "+expected[12].String())
+	assert.Equal(t, expected[0], tokens[0])
+	assert.Equal(t, expected[2], tokens[2])
+	assert.Equal(t, expected[4], tokens[4])
+	assert.Equal(t, expected[6], tokens[6])
+	assert.Equal(t, expected[8], tokens[8])
+	assert.Equal(t, expected[10], tokens[10])
+	assert.Equal(t, expected[12], tokens[12])
 }
